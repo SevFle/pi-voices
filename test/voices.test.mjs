@@ -1,4 +1,4 @@
-import { mkdtempSync, writeFileSync, mkdirSync, readFileSync } from "node:fs";
+import { mkdtempSync, writeFileSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { discoverVoices, parseVoiceFile, readVoiceState, seedVoices, writeVoiceState, starterTemplate } from "../lib/voices.ts";
@@ -64,6 +64,11 @@ check("explicit off is distinguishable from unsaved", readVoiceState(stateFile),
 const templatePath = join(root, "audit.md");
 writeFileSync(templatePath, starterTemplate("audit"));
 check("starter template parses as a voice", [parseVoiceFile(templatePath, "user").name, parseVoiceFile(templatePath, "user").description.startsWith("audit voice")], ["audit", true]);
+
+// The shipping list is closed. A stray voice file went out in a tarball once, because a test run
+// pointed VOICE_DIR at this repo and an older installed package seeded its retired voices into it.
+const shipped = readdirSync(new URL("../voices", import.meta.url)).filter((f) => f.endsWith(".md")).sort();
+check("voices/ holds exactly the five shipped voices", shipped, ["concise.md", "professional.md", "teaching.md", "tech-writing.md", "unslop.md"]);
 
 // Unslop rule ids are a citable contract, and markdown ordered lists get renumbered by linters
 // (an autofix did exactly that mid-session). So ids use the R prefix, which markdown reads as
