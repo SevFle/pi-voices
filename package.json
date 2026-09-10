@@ -1,7 +1,7 @@
 {
   "name": "pi-voices",
-  "version": "1.0.1",
-  "description": "Selectable output voices for the pi coding agent. Pick a voice with /voice and it is applied to every turn: concise, professional, teaching, creative, executive, or your own file.",
+  "version": "1.1.0",
+  "description": "Selectable output voices for Pi. Style rulesets injected every turn, switched with /voice.",
   "license": "MIT",
   "type": "module",
   "keywords": [
@@ -36,6 +36,7 @@
     "extensions",
     "lib",
     "voices",
+    "LICENSES",
     "README.md",
     "LICENSE"
   ],

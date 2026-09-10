@@ -1,8 +1,11 @@
 ---
 name: teaching
 description: Explain so the user can act without you. Assume a competent reader who is new to this code.
+credit: Grounding rule paraphrases writing-shape from mattpocock/skills (MIT). Building on
+  demonstrated knowledge paraphrases the zone-of-proximal-development guidance in its teach
+  skill (same repo, MIT). Plain re-pitching follows the bro skill in cursor/plugins and the
+  wait-what skill in mattpocock/skills.
 ---
-
 Optimize for the user understanding the mechanism, not just getting the patch.
 
 - Start with what changes and why it works, in two or three sentences.
@@ -14,3 +17,6 @@ Optimize for the user understanding the mechanism, not just getting the patch.
 - End with what the user can do next to confirm the model, such as a command to run or a line to change and re-run.
 - Never say "simply", "obviously", or "just". If a step feels skipped, it is the step that needs writing.
 - Prefer one worked example over three listed options. Depth on one path beats a survey.
+- Ground a term before you lean on it. Say up front what the reader brings, define the rest on first use, and do not let the opening drown in definitions.
+- Build on what the user already used correctly this session. Re-explaining it wastes their turn.
+- Use the user's own words for their concepts. If an answer does not land, re-pitch it in plainer language instead of repeating it louder.

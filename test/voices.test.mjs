@@ -65,5 +65,14 @@ const templatePath = join(root, "audit.md");
 writeFileSync(templatePath, starterTemplate("audit"));
 check("starter template parses as a voice", [parseVoiceFile(templatePath, "user").name, parseVoiceFile(templatePath, "user").description.startsWith("audit voice")], ["audit", true]);
 
+// Unslop rule ids are a citable contract, and markdown ordered lists get renumbered by linters
+// (an autofix did exactly that mid-session). So ids use the R prefix, which markdown reads as
+// plain text, and they run 1 to 41 with no gaps.
+const unslopRaw = readFileSync(new URL("../voices/unslop.md", import.meta.url), "utf8");
+const unslopIds = [...unslopRaw.matchAll(/^R(\d+)\. /gm)].map((m) => Number(m[1]));
+const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+check("unslop ids are R1 to R41 with no gaps", unslopIds, range(1, 41));
+check("no unslop rule sits in markdown list syntax", [...unslopRaw.matchAll(/^ ?\d+\. /gm)].length, 0);
+
 console.log(fails ? `\n${fails} failing` : "\nall green");
 process.exit(fails ? 1 : 0);

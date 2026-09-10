@@ -54,25 +54,32 @@ Your choice persists in `~/.pi/agent/voice.json`. For one run without touching t
 
 ```bash
 pi --voice concise
-pi --voice unslop,creative
+pi --voice unslop,tech-writing
 pi --voice-debug -p "summarize this diff"   # logs injected size and source file to stderr
 ```
 
 ## Stock voices
 
-Six voices seed into `~/.pi/agent/voices/` on first run, and `unslop` starts active. Token counts
+Five voices seed into `~/.pi/agent/voices/` on first run, and `unslop` starts active. Token counts
 are what each voice adds to every request.
 
 | Voice | It does | Tokens per turn |
 | --- | --- | --- |
-| `unslop` | 28 rules that strip the signals of machine-written prose | about 1200 |
-| `teaching` | Explains mechanism and reasoning, still leads with the answer | about 270 |
-| `creative` | Lets figurative language and varied rhythm through | about 240 |
-| `concise` | Leads with the answer, no preamble, no trailing recap | about 230 |
-| `professional` | Neutral register, no hedging, no corporate filler | about 225 |
-| `executive` | Decision and consequence first, numbers over adjectives | about 160 |
+| `unslop` | 41 rules that strip the signals of machine-written prose | about 2400 |
+| `tech-writing` | Docs, READMEs, PR text, commit messages, agent instructions | about 760 |
+| `teaching` | Explains mechanism, grounds each term, still leads with the answer | about 360 |
+| `professional` | Bottom line first, claims labelled, safe to forward | about 340 |
+| `concise` | Leads with the answer, no preamble, no trailing recap | about 280 |
 
-A voice is prompt budget. Stack the ones you need.
+`unslop` is the heavy one. It is a checklist, so the examples do the work, and cutting them costs
+accuracy. Trim the rules you never trip instead. Your copy in `~/.pi/agent/voices/unslop.md` wins
+forever, and seeding never touches it again.
+
+A voice is prompt budget. Stack the ones you need. Inside `unslop`, each rule has one id of the
+form `R9`, so you can cite a single rule in `AGENTS.md` or a skill without dragging in its section. The set narrowed from six voices to five in
+1.1.0: `executive` folded into `professional`, and `creative` gave way to `tech-writing`, which pays
+for itself more often in a coding agent. Seeding never deletes, so remove the stale
+`creative.md` and `executive.md` yourself if you upgraded.
 
 ## Write your own
 
@@ -111,7 +118,7 @@ effect on the next message. `/voice` also sets a footer status showing the activ
 
 It writes two things, both under `~/.pi/agent`: the saved selection in `voice.json`, and voice files
 when it seeds stock voices or you run `/voice new`. It opens no sockets and starts no subprocesses.
-Unpacked size is 33 kB, with no runtime dependencies.
+Unpacked size is 45 kB, with no runtime dependencies.
 
 ## Requirements
 
@@ -121,13 +128,44 @@ is no build step and no install script runs.
 
 ## Credits
 
-The `unslop` voice is adapted from the unslop skill by
-[cursor/plugins](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md). The
-rule numbering is theirs and stays stable, so "rule 13" means the same rule in that skill and in
-your notes. The set holds 28 rules numbered 3 to 33, and the gaps at 1, 2, 4, 6 and 21 are upstream
-removals. The wording here is condensed for prompt use and the process prose is rewritten. The
-attribution also sits in the frontmatter of `voices/unslop.md`, which is stripped before injection,
-so it travels with every seeded copy at no prompt cost.
+Each voice file names its own sources in frontmatter, and frontmatter is stripped before injection,
+so attribution costs no prompt tokens and travels with every seeded copy. This is the same list.
+
+`unslop` adapts the unslop skill from
+[cursor/plugins](https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md), and
+takes R31 to R41, the weak-alone grading and the guard rails from
+[humanizer](https://github.com/blader/humanizer/blob/main/SKILL.md) by Siqi Chen, MIT licensed,
+whose notice ships in `LICENSES/humanizer-MIT.txt`. Humanizer itself distils Wikipedia's [Signs of
+AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), maintained by WikiProject
+AI Cleanup, which is where the patterns come from. R29 and R30 are ours, written from the ASD-STE100
+and Global English material below. Wording in every rule is rewritten for prompt use.
+
+Ids are local to pi-voices and run R1 to R41 with no gaps, so they do not match upstream's numbers.
+Upstream numbers its rules 3 to 33 and leaves holes at 1, 2, 4, 6 and 21 where it removed rules, and
+that list maps in order onto R1 to R28. Quote the R form, as in "apply R9", and cite a source by
+link when precision matters.
+
+`tech-writing` states steps and sentences from primary sources rather than from anyone's skill file:
+the [Google Developer Documentation Style
+Guide](https://developers.google.com/style) (CC BY 4.0), [ASD-STE100 Simplified Technical
+English](https://asd-ste100.org) principles, [The Global English Style
+Guide](https://www.sas.com/en_us/insights/books/descriptive-techniques/global-english-style-guide.html)
+(Kohl, SAS Press), and [Diataxis](https://diataxis.fr) for the four document types. Its
+agent-instructions section paraphrases `writing-for-agents` from
+[mattpocock/skills](https://github.com/mattpocock/skills).
+
+`teaching` takes its grounding rule from `writing-shape` and its prior-knowledge rule from `teach`,
+both from [mattpocock/skills](https://github.com/mattpocock/skills). The plain re-pitch rule follows
+`wait-what` from the same repo and `bro` from cursor/plugins.
+
+`professional` and `concise` take claim labelling (measured, inferred, or guess), the ban on
+invented links and citations, and the consumer-and-maintainer framing from `poteto-mode` in
+cursor/plugins. The table-over-bullets test comes from `writing-shape` in mattpocock/skills.
+
+[mattpocock/skills](https://github.com/mattpocock/skills) is MIT licensed, copyright (c) 2026 Matt
+Pocock, and that notice ships in `LICENSES/mattpocock-skills-MIT.txt`. Borrowed material from that
+repo is paraphrased, not copied. cursor/plugins publishes no LICENSE file, so the borrowings there
+are ideas and short paraphrases with attribution, and nothing there is copied verbatim.
 
 ## Security
 
