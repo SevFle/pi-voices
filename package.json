@@ -1,0 +1,45 @@
+{
+  "name": "pi-voices",
+  "version": "1.0.0",
+  "description": "Selectable output voices for the pi coding agent. Pick a voice with /voice and it is applied to every turn: concise, professional, teaching, creative, executive, or your own file.",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "voice",
+    "style",
+    "writing",
+    "tone"
+  ],
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SevFle/pi-voices.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SevFle/pi-voices/issues"
+  },
+  "homepage": "https://github.com/SevFle/pi-voices#readme",
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/voice.ts"
+    ],
+    "image": "https://raw.githubusercontent.com/SevFle/pi-voices/main/assets/card.png"
+  },
+  "files": [
+    "extensions",
+    "lib",
+    "voices",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/voices.test.mjs"
+  }
+}
